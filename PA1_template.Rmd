@@ -5,11 +5,15 @@ output:
     keep_md: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## Loading and preprocessing the data
 
+
 Code for reading in the dataset and/or processing the data
-=============================================================
+
 
 ```{r}
 #Download the zipfile
@@ -42,7 +46,7 @@ ActivityMonitoringData$date <- as.Date(ActivityMonitoringData$date,"%Y-%m-%d")
 ## What is mean total number of steps taken per day?
 
 Total number of steps taken each day
-========================================================
+
 
 ```{r}
 #Histogram
@@ -60,7 +64,7 @@ print(histogram)
 ```
 
 Mean and median number of steps taken each day
-=====
+
 Because on a number of days the steps are 'NA', they have to be removed before the Mean and Median are calculated.
 ```{r}
 mean(StepsperDay$Steps,na.rm=TRUE)
@@ -71,7 +75,7 @@ median(StepsperDay$Steps,na.rm=TRUE)
 ## What is the average daily activity pattern?
 
 Time series plot of the average number of steps taken
-===
+
 
 First average the number of steps per 5-minute interval; remove the NA's when calculating the mean.
 
@@ -96,7 +100,7 @@ print(ts_plot)
 
 
 The 5-minute interval that, on average, contains the maximum number of steps
-===
+
 
 To find the interval with the maximum number of average steps, we use the function which.max()
 ```{r}
@@ -107,7 +111,7 @@ StepsperInterval[which.max(StepsperInterval$Average_Steps),]
 ## Imputing missing values
 
 Code to describe and show a strategy for imputing missing data
-===
+
 First find out how many NAs there are, and how many in the column Steps
 ```{r}
 sum(is.na(ActivityMonitoringData))
@@ -134,7 +138,7 @@ ActivityMonitoringDataZero[is.na(ActivityMonitoringDataZero)] <- 0
 Then you re-do the graphs before with the zeroed dataset.
 
 Histogram of the total number of steps taken each day after missing values are imputed
-===
+
 
 ```{r}
 #Histogram
@@ -160,7 +164,7 @@ median(StepsperDayZero$Steps)
 
 ## Are there differences in activity patterns between weekdays and weekends?
 Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
-===
+
 
 First make a column with the day of the week, and a factor column to indicate whether it is a weekday.
 
@@ -196,3 +200,8 @@ ts_plot <- ts_plot + geom_line()
 ts_plot <- ts_plot + facet_grid(Weekdayfactor ~ ., scales = "free") # separate the weekday types
 print(ts_plot)
 ```
+
+Conclusion: there are differences in activity between weekdays and weekends:
+
+* Weekdays, activity starts earlier than in weekends
+* In weekends, activity level during the day is higher
